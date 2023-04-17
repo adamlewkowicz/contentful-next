@@ -1,0 +1,17 @@
+{
+  "React Component": {
+    "prefix": "rcl",
+    "body": [
+      "import React from 'react';",
+      "",
+      "interface ${TM_FILENAME_BASE}Props {",
+      "",
+      "}",
+      "",
+      "export function ${TM_FILENAME_BASE}(props: ${TM_FILENAME_BASE}Props) {",
+      "  return ($1)",
+      "};"
+    ],
+    "description": "React Component"
+  }
+}
