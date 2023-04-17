@@ -1,4 +1,4 @@
-import * as components from '@/components';
+import * as contentfulComponents from '@/components/contentful';
 
 export function componentSelector() {}
 
@@ -11,8 +11,8 @@ const NotFound = (props: ComponentConnectorProps) => {
 };
 
 export function ComponentConnector(props: ComponentConnectorProps) {
-  // const componentsMap = Object.fromEntries(Object.entries(components))
-  const SelectedComponent = (components as any)[props.__typename] ?? NotFound;
+  const SelectedComponent =
+    (contentfulComponents as any)[props.__typename] ?? NotFound;
 
   return <SelectedComponent {...props} />;
 }

@@ -1,8 +1,8 @@
-import type { OgImage } from '@/network/getPageData';
+import type { Asset } from '@/network/getPageData';
 import React from 'react';
 
 interface OgImageMetaProps {
-  ogImage: OgImage;
+  ogImage: Asset;
 }
 
 export function OgImageMeta({ ogImage }: OgImageMetaProps) {
