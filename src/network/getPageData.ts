@@ -1,8 +1,35 @@
 const query = `
-fragment SectionHeroFragment on SectionHero {
+fragment AssetFragment on Asset {
   title
-  subtitle
-  
+  description
+  url
+  width
+  height
+}
+
+fragment SectionHero on SectionHero {
+title
+subtitle
+name
+background {
+  ...AssetFragment
+}
+}
+
+fragment SectionTextWithImage on SectionTextWithImage {
+name
+title
+content
+variant
+image {
+  ...AssetFragment
+}
+}
+
+fragment SectionTextContent on SectionTextContent {
+title
+content
+name
 }
 
 query PageData {
@@ -12,25 +39,10 @@ page: templatePage(id: "2NKARVWJsFG2YEs4yGyYWX") {
   slug
   body: bodyCollection {
     items {
-      ...SectionHeroFragment
-      ...on SectionTextWithImage {
-        title
-        image {
-          title
-          description
-          contentType
-          fileName
-          size
-          url
-          width
-          height
-        }
-      }
-      ...on SectionTextContent {
-        title
-        content
-      }
       __typename
+      ...SectionHero
+      ...SectionTextWithImage
+      ...SectionTextContent
     }
   }
   metatags {
@@ -38,18 +50,13 @@ page: templatePage(id: "2NKARVWJsFG2YEs4yGyYWX") {
     name
     description
     ogImage {
-      title
-      description
+      ...AssetFragment
       contentType
       fileName
-      size
-      url
-      width
-      height
+      size       
     }
   }
 }
-
 layoutHeaderCollection {
   items {
     sys {
@@ -87,7 +94,7 @@ export async function getPageData(): Promise<PageData> {
   return response.data;
 }
 
-export type OgImage = {
+export interface Asset {
   title: string;
   description: string;
   contentType: string;
@@ -96,13 +103,24 @@ export type OgImage = {
   url: string;
   width: number;
   height: number;
-};
+}
 
 export interface Metatags {
   title: string;
   name: string;
   description: string;
-  ogImage: OgImage;
+  ogImage: Asset;
+}
+
+export interface ImageData {
+  title: string;
+  description: string;
+  contentType: string;
+  fileName: string;
+  size: number;
+  url: string;
+  width: number;
+  height: number;
 }
 
 export type PageData = {
@@ -115,16 +133,7 @@ export type PageData = {
         title: string;
         subtitle?: string;
         __typename: string;
-        image?: {
-          title: string;
-          description: string;
-          contentType: string;
-          fileName: string;
-          size: number;
-          url: string;
-          width: number;
-          height: number;
-        };
+        image?: ImageData;
       }>;
     };
     metatags: Metatags;
