@@ -15,14 +15,14 @@ interface HomeProps {
 }
 
 export default function Home({ data }: HomeProps) {
-  const { page } = data;
+  const { page, header, footer } = data;
   const { metatags } = page;
 
   return (
     <div style={font.style}>
-      <Layout metatags={metatags}>
-        {page.body.items.map((comp: any) => (
-          <ComponentConnector key={comp.name ?? comp.__typename} {...comp} />
+      <Layout metatags={metatags} header={header} footer={footer}>
+        {page.body.items.map((item: any) => (
+          <ComponentConnector key={item.name ?? item.__typename} {...item} />
         ))}
       </Layout>
     </div>

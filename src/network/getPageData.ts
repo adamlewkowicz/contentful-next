@@ -57,20 +57,32 @@ page: templatePage(id: "2NKARVWJsFG2YEs4yGyYWX") {
     }
   }
 }
-layoutHeaderCollection {
-  items {
-    sys {
-      id
+header: layoutHeader(id: "1drw8tVTwovdtZTEbcaRQ8") {
+  __typename
+  name
+  menuCollection {
+    items {
+      name
+      title
+      url
+      type
     }
-    name
-    menuCollection {
-      items {
-        name
-        title
-        url
-      }
+  }
+  logo {
+    ...AssetFragment
+  }
+}
+footer: layoutFooter(id: "1J2Z63DOIL4PegsPl8yTK5") {
+  __typename
+  name
+  description
+  menuCollection {
+    items {
+      name
+      title
+      url
+      type
     }
-    __typename
   }
 }
 }`;
@@ -123,36 +135,43 @@ export interface ImageData {
   height: number;
 }
 
+export interface MenuItem {
+  name: string;
+  title: string;
+  url: string;
+  type: string;
+}
+
 export type PageData = {
   page: {
     __typename: string;
     name: string;
     slug: string;
     body: {
-      items: Array<{
+      items: {
         title: string;
         subtitle?: string;
         __typename: string;
         image?: ImageData;
-      }>;
+      }[];
     };
     metatags: Metatags;
   };
-  layoutHeaderCollection: {
-    items: Array<{
-      sys: {
-        id: string;
-      };
-      name: string;
-      menuCollection: {
-        items: Array<{
-          name: string;
-          title: string;
-          url: string;
-        }>;
-      };
-      __typename: string;
-    }>;
+  header: {
+    __typename: string;
+    name: string;
+    menuCollection: {
+      items: MenuItem[];
+    };
+    logo: Asset;
+  };
+  footer: {
+    __typename: string;
+    name: string;
+    description: string;
+    menuCollection: {
+      items: MenuItem[];
+    };
   };
 };
 
