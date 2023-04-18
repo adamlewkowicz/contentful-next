@@ -1,4 +1,4 @@
-import { ComponentConnector } from '@/utils/componentSelector';
+import { ComponentConnector } from '@/components/utils';
 import { type GetStaticPaths, type GetStaticProps } from 'next';
 import { getPageDataBySlug } from '@/network/getPageData';
 import { type PageData } from '@/network/getPageData';

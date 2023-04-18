@@ -1,7 +1,5 @@
 import * as contentfulComponents from '@/components/contentful';
 
-export function componentSelector() {}
-
 interface ComponentConnectorProps {
   __typename: string;
 }
@@ -11,8 +9,10 @@ const NotFound = (props: ComponentConnectorProps) => {
 };
 
 export function ComponentConnector(props: ComponentConnectorProps) {
-  const SelectedComponent =
-    (contentfulComponents as any)[props.__typename] ?? NotFound;
+  // It's safe to use any here since imported modules
+  // are technically an object under the hood
+  const SelectedComponent = (contentfulComponents as any)[props.__typename];
+  const GenericComponent = SelectedComponent ?? NotFound;
 
-  return <SelectedComponent {...props} />;
+  return <GenericComponent {...props} />;
 }
