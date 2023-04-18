@@ -2,6 +2,6 @@
 
 ## Todo
 
-- [ ] - create `AppLink` component for handling external and internal links
 - [ ] - auto-generate graphql types
 - [ ] - replace hardcoded header and footer component ids
+- [ ] - create `AppLink` component for generic handling external and internal links
