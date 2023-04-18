@@ -14,84 +14,85 @@ fragment AssetFragment on Asset {
 }
 
 fragment SectionHero on SectionHero {
-title
-subtitle
-name
-background {
-  ...AssetFragment
-}
-}
-
-fragment SectionTextWithImage on SectionTextWithImage {
-name
-title
-content
-variant
-image {
-  ...AssetFragment
-}
-}
-
-fragment SectionTextContent on SectionTextContent {
-title
-content
-name
-}
-
-query PageData {
-page: templatePage(id: "${pageId}") {
-  __typename
+  title
+  subtitle
   name
-  slug
-  body: bodyCollection {
-    items {
-      __typename
-      ...SectionHero
-      ...SectionTextWithImage
-      ...SectionTextContent
-    }
-  }
-  metatags {
-    title
-    name
-    description
-    ogImage {
-      ...AssetFragment
-      contentType
-      fileName
-      size       
-    }
-  }
-}
-header: layoutHeader(id: "${MAIN_HEADER_ID}") {
-  __typename
-  name
-  menuCollection {
-    items {
-      name
-      title
-      url
-      type
-    }
-  }
-  logo {
+  background {
     ...AssetFragment
   }
 }
-footer: layoutFooter(id: "${MAIN_FOOTER_ID}") {
-  __typename
+
+fragment SectionTextWithImage on SectionTextWithImage {
   name
-  description
-  menuCollection {
-    items {
-      name
+  title
+  content
+  variant
+  image {
+    ...AssetFragment
+  }
+}
+
+fragment SectionTextContent on SectionTextContent {
+  title
+  content
+  name
+}
+
+query PageData {
+  page: templatePage(id: "${pageId}") {
+    __typename
+    name
+    slug
+    body: bodyCollection {
+      items {
+        __typename
+        ...SectionHero
+        ...SectionTextWithImage
+        ...SectionTextContent
+      }
+    }
+    metatags {
       title
-      url
-      type
+      name
+      description
+      ogImage {
+        ...AssetFragment
+        contentType
+        fileName
+        size
+      }
+    }
+  }
+  header: layoutHeader(id: "${MAIN_HEADER_ID}") {
+    __typename
+    name
+    menuCollection {
+      items {
+        name
+        title
+        url
+        type
+      }
+    }
+    logo {
+      ...AssetFragment
+    }
+  }
+  footer: layoutFooter(id: "${MAIN_FOOTER_ID}") {
+    __typename
+    name
+    description
+    menuCollection {
+      items {
+        name
+        title
+        url
+        type
+      }
     }
   }
 }
-}`;
+`;
 
 async function getPageDataById(pageId: string): Promise<PageData> {
   const response = await fetchGraphQl<GetPageDataResponse>(
