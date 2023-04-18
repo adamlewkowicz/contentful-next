@@ -1,4 +1,4 @@
-import { fetchGraphQl } from './getPageData';
+import { fetchGraphQl } from '@/utils';
 
 const getPagesQuery = `
 query TemplatePageCollection {

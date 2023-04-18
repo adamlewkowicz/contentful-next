@@ -1,3 +1,4 @@
+import { fetchGraphQl } from '@/utils';
 import { getPages } from './getPages';
 
 const MAIN_HEADER_ID = '1drw8tVTwovdtZTEbcaRQ8';
@@ -91,20 +92,6 @@ footer: layoutFooter(id: "${MAIN_FOOTER_ID}") {
   }
 }
 }`;
-
-export async function fetchGraphQl<T>(query: string): Promise<T> {
-  return fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify({ query }),
-    },
-  ).then((response) => response.json());
-}
 
 async function getPageDataById(pageId: string): Promise<PageData> {
   const response = await fetchGraphQl<GetPageDataResponse>(
