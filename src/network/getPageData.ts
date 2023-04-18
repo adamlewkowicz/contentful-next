@@ -1,4 +1,9 @@
-const query = `
+import { getPages } from './getPages';
+
+const MAIN_HEADER_ID = '1drw8tVTwovdtZTEbcaRQ8';
+const MAIN_FOOTER_ID = '1J2Z63DOIL4PegsPl8yTK5';
+
+const getPageQuery = (pageId: string) => `
 fragment AssetFragment on Asset {
   title
   description
@@ -33,7 +38,7 @@ name
 }
 
 query PageData {
-page: templatePage(id: "2NKARVWJsFG2YEs4yGyYWX") {
+page: templatePage(id: "${pageId}") {
   __typename
   name
   slug
@@ -57,7 +62,7 @@ page: templatePage(id: "2NKARVWJsFG2YEs4yGyYWX") {
     }
   }
 }
-header: layoutHeader(id: "1drw8tVTwovdtZTEbcaRQ8") {
+header: layoutHeader(id: "${MAIN_HEADER_ID}") {
   __typename
   name
   menuCollection {
@@ -72,7 +77,7 @@ header: layoutHeader(id: "1drw8tVTwovdtZTEbcaRQ8") {
     ...AssetFragment
   }
 }
-footer: layoutFooter(id: "1J2Z63DOIL4PegsPl8yTK5") {
+footer: layoutFooter(id: "${MAIN_FOOTER_ID}") {
   __typename
   name
   description
@@ -87,7 +92,7 @@ footer: layoutFooter(id: "1J2Z63DOIL4PegsPl8yTK5") {
 }
 }`;
 
-async function fetchGraphQL<T>(query: any): Promise<T> {
+export async function fetchGraphQl<T>(query: string): Promise<T> {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
@@ -101,9 +106,25 @@ async function fetchGraphQL<T>(query: any): Promise<T> {
   ).then((response) => response.json());
 }
 
-export async function getPageData(): Promise<PageData> {
-  const response = await fetchGraphQL<GetPageDataResponse>(query);
+async function getPageDataById(pageId: string): Promise<PageData> {
+  const response = await fetchGraphQl<GetPageDataResponse>(
+    getPageQuery(pageId),
+  );
   return response.data;
+}
+
+export async function getPageDataBySlug(
+  slug: string,
+): Promise<PageData | null> {
+  const allPages = await getPages();
+  const requestedPage = allPages.find((page) => page.slug === slug);
+
+  if (requestedPage) {
+    const pageData = await getPageDataById(requestedPage.id);
+    return pageData;
+  }
+
+  return null;
 }
 
 export interface Asset {
