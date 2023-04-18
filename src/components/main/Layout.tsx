@@ -4,6 +4,9 @@ import React, { type ReactNode } from 'react';
 import { OgImageMeta } from './OgImage';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { DM_Sans as Font } from 'next/font/google';
+
+const font = Font({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
 interface LayoutProps {
   metatags: Metatags;
@@ -14,7 +17,7 @@ interface LayoutProps {
 
 export function Layout({ metatags, children, header, footer }: LayoutProps) {
   return (
-    <div>
+    <>
       <Head>
         <title>{metatags.title}</title>
         <meta name="description" content={metatags.description} />
@@ -22,9 +25,11 @@ export function Layout({ metatags, children, header, footer }: LayoutProps) {
         <link rel="icon" href="/favicon.ico" />
         <OgImageMeta ogImage={metatags.ogImage} />
       </Head>
-      <Header data={header} />
-      <main>{children}</main>
-      <Footer data={footer} />
-    </div>
+      <div style={font.style}>
+        <Header data={header} />
+        <main>{children}</main>
+        <Footer data={footer} />
+      </div>
+    </>
   );
 }

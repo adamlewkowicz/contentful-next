@@ -149,6 +149,7 @@ export type PageData = {
     slug: string;
     body: {
       items: {
+        name?: string;
         title: string;
         subtitle?: string;
         __typename: string;
