@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import styled from '@emotion/styled';
 
-interface SectionTextContentProps {
+export interface SectionTextContentProps {
   title: string;
   content: string;
 }

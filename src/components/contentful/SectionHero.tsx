@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import type { Asset } from '@/network/getPageData';
 
-interface SectionHeroProps {
+export interface SectionHeroProps {
   title: string;
   subtitle: string;
   background: Asset;

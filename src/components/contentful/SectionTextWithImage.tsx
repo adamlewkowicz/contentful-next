@@ -1,12 +1,11 @@
 import type { ImageData } from '@/network/getPageData';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
 type Variant = 'left' | 'right';
 
-interface SectionTextWithImageProps {
+export interface SectionTextWithImageProps {
   title: string;
   image: ImageData;
   content: string;

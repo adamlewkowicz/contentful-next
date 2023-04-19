@@ -1,18 +1,33 @@
-import * as contentfulComponents from '@/components/contentful';
+import {
+  SectionHero,
+  SectionTextContent,
+  SectionTextWithImage,
+  type SectionHeroProps,
+  type SectionTextContentProps,
+  type SectionTextWithImageProps,
+} from '@/components/contentful';
 
-interface ComponentConnectorProps {
-  __typename: string;
+type PropsWithType<Typename, Props = {}> = { __typename: Typename } & Props;
+
+type AllComponentProps =
+  | PropsWithType<'SectionHero', SectionHeroProps>
+  | PropsWithType<'SectionTextContent', SectionTextContentProps>
+  | PropsWithType<'SectionTextWithImage', SectionTextWithImageProps>
+  | PropsWithType<'NotFound'>;
+
+export function ComponentConnector(props: AllComponentProps): JSX.Element {
+  switch (props.__typename) {
+    case 'SectionHero':
+      return <SectionHero {...props} />;
+    case 'SectionTextContent':
+      return <SectionTextContent {...props} />;
+    case 'SectionTextWithImage':
+      return <SectionTextWithImage {...props} />;
+    default:
+      return <NotFound __typename={props.__typename} />;
+  }
 }
 
-const NotFound = (props: ComponentConnectorProps) => {
+const NotFound = (props: { __typename: string }) => {
   return <p>Not found component: {props.__typename}</p>;
 };
-
-export function ComponentConnector(props: ComponentConnectorProps) {
-  // It's safe to use any here since imported modules
-  // are technically an object under the hood
-  const SelectedComponent = (contentfulComponents as any)[props.__typename];
-  const GenericComponent = SelectedComponent ?? NotFound;
-
-  return <GenericComponent {...props} />;
-}
